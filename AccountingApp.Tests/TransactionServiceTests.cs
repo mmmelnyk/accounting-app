@@ -1,6 +1,6 @@
-﻿using AccountingCLI.Models;
-using AccountingCLI.Services;
-using AccountingCLI.Data;
+﻿using AccountingApp.Models;
+using AccountingApp.Services;
+using AccountingApp.Data;
 using Moq;
 
 namespace AccountingApp.Tests;

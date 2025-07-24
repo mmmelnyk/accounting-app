@@ -1,4 +1,4 @@
-namespace AccountingCLI.Configuration;
+namespace AccountingApp.Configuration;
 
 public class AppSettings
 {

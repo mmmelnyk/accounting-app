@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <Version>1.0.0</Version>
-    <Product>Accounting CLI</Product>
+    <Product>Accounting App</Product>
     <Description>Консольний застосунок для обліку фінансових операцій</Description>
     <Company>Mykola LTD</Company>
     <Copyright>Copyright © 2025</Copyright>

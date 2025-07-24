@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountingCLI", "AccountingCLI\AccountingCLI.csproj", "{EBD2B622-9E1D-DF2A-D483-52D1542183DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountingApp", "AccountingApp\AccountingApp.csproj", "{EBD2B622-9E1D-DF2A-D483-52D1542183DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountingCLI.Tests", "AccountingCLI.Tests\AccountingCLI.Tests.csproj", "{6E962E60-F288-4694-95EA-BC5D2C412699}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountingApp.Tests", "AccountingApp.Tests\AccountingApp.Tests.csproj", "{6E962E60-F288-4694-95EA-BC5D2C412699}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

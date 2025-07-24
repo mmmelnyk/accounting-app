@@ -1,7 +1,7 @@
-using AccountingCLI.Data;
-using AccountingCLI.Models;
+using AccountingApp.Data;
+using AccountingApp.Models;
 
-namespace AccountingCLI.Services;
+namespace AccountingApp.Services;
 
 public class TransactionService : ITransactionService
 {
@@ -57,7 +57,7 @@ public class TransactionService : ITransactionService
     public void GenerateSeedData()
     {
         var existingTransactions = DbContext.Load();
-        if (existingTransactions.Count > 0)
+        if (existingTransactions.Count > 9)
         {
             Console.WriteLine("Seed data already exists. Skipping generation.");
             return;
