@@ -57,7 +57,7 @@ public class TransactionService : ITransactionService
     public void GenerateSeedData()
     {
         var existingTransactions = DbContext.Load();
-        if (existingTransactions.Count > 0)
+        if (existingTransactions.Count > 9)
         {
             Console.WriteLine("Seed data already exists. Skipping generation.");
             return;
