@@ -1,4 +1,4 @@
-namespace AccountingCLI.Services;
+namespace AccountingApp.Services;
 
 public interface IApplicationService
 {

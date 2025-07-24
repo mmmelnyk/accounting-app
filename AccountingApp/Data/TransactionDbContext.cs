@@ -1,7 +1,7 @@
 using System.Text.Json;
-using AccountingCLI.Models;
+using AccountingApp.Models;
 
-namespace AccountingCLI.Data;
+namespace AccountingApp.Data;
 
 public class TransactionDbContext : ITransactionDbContext
 {

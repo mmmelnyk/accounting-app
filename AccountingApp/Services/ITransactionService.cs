@@ -1,7 +1,7 @@
-using AccountingCLI.Data;
-using AccountingCLI.Models;
+using AccountingApp.Data;
+using AccountingApp.Models;
 
-namespace AccountingCLI.Services;
+namespace AccountingApp.Services;
 
 public interface ITransactionService
 {

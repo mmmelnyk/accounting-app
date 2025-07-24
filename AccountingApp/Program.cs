@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
-using AccountingCLI.Data;
-using AccountingCLI.Services;
-using AccountingCLI.Configuration;
+using AccountingApp.Data;
+using AccountingApp.Services;
+using AccountingApp.Configuration;
 using System.Globalization;
 
 // Load configuration

@@ -38,7 +38,7 @@ dotnet build
 
 ### Крок 3: Запуск застосунку
 ```bash
-cd AccountingCLI
+cd AccountingApp
 dotnet run
 ```
 
