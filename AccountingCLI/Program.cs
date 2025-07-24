@@ -88,7 +88,7 @@ void AddTransaction()
     // Валідація моделі
     var errors = new List<ValidationResult>();
     Validator.TryValidateObject(transaction, new ValidationContext(transaction), errors, true);
-    if (errors.Any())
+    if (errors.Count > 0)
     {
         Console.WriteLine("Помилки валідації:");
         foreach (var error in errors)
