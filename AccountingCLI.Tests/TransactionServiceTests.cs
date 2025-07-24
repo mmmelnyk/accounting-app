@@ -19,11 +19,11 @@ public class TransactionServiceTests
         
         _testTransactions = new List<Transaction>
         {
-            new() { Id = 1, DebitAccountNumber = 101, CreditAccountNumber = 301, 
+            new() { Id = 1, DebitAccountNumber = "101", CreditAccountNumber = "301", 
                    Amount = 50000m, Date = DateTime.Parse("2024-01-01"), Description = "Initial capital" },
-            new() { Id = 2, DebitAccountNumber = 201, CreditAccountNumber = 101, 
+            new() { Id = 2, DebitAccountNumber = "201", CreditAccountNumber = "101", 
                    Amount = 25000m, Date = DateTime.Parse("2024-01-15"), Description = "Equipment purchase" },
-            new() { Id = 3, DebitAccountNumber = 102, CreditAccountNumber = 701, 
+            new() { Id = 3, DebitAccountNumber = "102", CreditAccountNumber = "701", 
                    Amount = 15000m, Date = DateTime.Parse("2024-02-01"), Description = "Sales revenue" }
         };
     }
@@ -37,8 +37,8 @@ public class TransactionServiceTests
         
         var newTransaction = new Transaction
         {
-            DebitAccountNumber = 101,
-            CreditAccountNumber = 301,
+            DebitAccountNumber = "101",
+            CreditAccountNumber = "301",
             Amount = 1000m,
             Date = DateTime.Now,
             Description = "Test transaction"
@@ -61,8 +61,8 @@ public class TransactionServiceTests
         
         var newTransaction = new Transaction
         {
-            DebitAccountNumber = 102,
-            CreditAccountNumber = 701,
+            DebitAccountNumber = "102",
+            CreditAccountNumber = "701",
             Amount = 2000m,
             Date = DateTime.Now,
             Description = "New transaction"
@@ -141,9 +141,9 @@ public class TransactionServiceTests
         // Arrange
         var unorderedTransactions = new List<Transaction>
         {
-            new() { Id = 1, Date = DateTime.Parse("2024-03-01"), Amount = 100m, DebitAccountNumber = 101, CreditAccountNumber = 201 },
-            new() { Id = 2, Date = DateTime.Parse("2024-01-01"), Amount = 200m, DebitAccountNumber = 102, CreditAccountNumber = 202 },
-            new() { Id = 3, Date = DateTime.Parse("2024-02-01"), Amount = 300m, DebitAccountNumber = 103, CreditAccountNumber = 203 }
+            new() { Id = 1, Date = DateTime.Parse("2024-03-01"), Amount = 100m, DebitAccountNumber = "101", CreditAccountNumber = "201" },
+            new() { Id = 2, Date = DateTime.Parse("2024-01-01"), Amount = 200m, DebitAccountNumber = "102", CreditAccountNumber = "202" },
+            new() { Id = 3, Date = DateTime.Parse("2024-02-01"), Amount = 300m, DebitAccountNumber = "103", CreditAccountNumber = "203" }
         };
         _mockDbContext.Setup(x => x.Load()).Returns(unorderedTransactions);
 
@@ -162,7 +162,7 @@ public class TransactionServiceTests
         // Arrange
         var singleTransaction = new List<Transaction>
         {
-            new() { Id = 1, DebitAccountNumber = 101, CreditAccountNumber = 201, Amount = 1000m, Date = DateTime.Now }
+            new() { Id = 1, DebitAccountNumber = "101", CreditAccountNumber = "201", Amount = 1000m, Date = DateTime.Now }
         };
         _mockDbContext.Setup(x => x.Load()).Returns(singleTransaction);
 
@@ -172,12 +172,12 @@ public class TransactionServiceTests
         // Assert
         Assert.That(result.Count, Is.EqualTo(2)); // Two accounts affected
         
-        var account101 = result.First(x => x.AccountNumber == 101);
+        var account101 = result.First(x => x.AccountNumber == "101");
         Assert.That(account101.DebitTotal, Is.EqualTo(1000m));
         Assert.That(account101.CreditTotal, Is.EqualTo(0m));
         Assert.That(account101.Balance, Is.EqualTo(1000m));
         
-        var account201 = result.First(x => x.AccountNumber == 201);
+        var account201 = result.First(x => x.AccountNumber == "201");
         Assert.That(account201.DebitTotal, Is.EqualTo(0m));
         Assert.That(account201.CreditTotal, Is.EqualTo(1000m));
         Assert.That(account201.Balance, Is.EqualTo(-1000m));
@@ -189,9 +189,9 @@ public class TransactionServiceTests
         // Arrange
         var transactions = new List<Transaction>
         {
-            new() { Id = 1, DebitAccountNumber = 101, CreditAccountNumber = 201, Amount = 1000m, Date = DateTime.Now },
-            new() { Id = 2, DebitAccountNumber = 101, CreditAccountNumber = 202, Amount = 500m, Date = DateTime.Now },
-            new() { Id = 3, DebitAccountNumber = 203, CreditAccountNumber = 101, Amount = 300m, Date = DateTime.Now }
+            new() { Id = 1, DebitAccountNumber = "101", CreditAccountNumber = "201", Amount = 1000m, Date = DateTime.Now },
+            new() { Id = 2, DebitAccountNumber = "101", CreditAccountNumber = "202", Amount = 500m, Date = DateTime.Now },
+            new() { Id = 3, DebitAccountNumber = "203", CreditAccountNumber = "101", Amount = 300m, Date = DateTime.Now }
         };
         _mockDbContext.Setup(x => x.Load()).Returns(transactions);
 
@@ -199,7 +199,7 @@ public class TransactionServiceTests
         var result = _service.GetTrialBalanceItems().ToList();
 
         // Assert
-        var account101 = result.First(x => x.AccountNumber == 101);
+        var account101 = result.First(x => x.AccountNumber == "101");
         Assert.That(account101.DebitTotal, Is.EqualTo(1500m)); // 1000 + 500
         Assert.That(account101.CreditTotal, Is.EqualTo(300m)); // 300
         Assert.That(account101.Balance, Is.EqualTo(1200m)); // 1500 - 300

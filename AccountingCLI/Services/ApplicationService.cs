@@ -82,17 +82,54 @@ public class ApplicationService : IApplicationService
         Console.WriteLine("=== Додавання операції ===");
         
         Console.Write("Введіть номер дебетового рахунку: ");
-        var debitAccountNumber = int.TryParse(Console.ReadLine(), out var debit) ? debit : 0;
+        var debitAccountNumber = Console.ReadLine() ?? string.Empty;
         
         Console.Write("Введіть номер кредитового рахунку: ");
-        var creditAccountNumber = int.TryParse(Console.ReadLine(), out var credit) ? credit : 0;
+        var creditAccountNumber = Console.ReadLine()  ?? string.Empty;
         
-        Console.Write($"Введіть дату ({_appSettings.DateFormat}): ");
+        Console.Write($"Введіть дату ({_appSettings.DateFormat}) або залиште порожнім для поточної дати: ");
         var dateInput = Console.ReadLine();
-        var date = DateTime.TryParse(dateInput, out var parsedDate) ? parsedDate : DateTime.Now;
+        
+        DateTime date;
+        
+        // If date input is null or empty, use current date
+        if (string.IsNullOrWhiteSpace(dateInput))
+        {
+            date = DateTime.Now;
+        }
+        else
+        {
+            // Validate date format using regex - only yyyy-MM-dd format
+            var dateRegex = new System.Text.RegularExpressions.Regex(@"^\d{4}-\d{2}-\d{2}$");
+            if (!dateRegex.IsMatch(dateInput))
+            {
+                Console.WriteLine($"Помилка: Дата повинна бути у форматі {_appSettings.DateFormat}");
+                Console.WriteLine("Натисніть будь-яку клавішу для повернення до головного меню...");
+                Console.ReadKey();
+                return;
+            }
+            
+            if (!DateTime.TryParse(dateInput, out date))
+            {
+                Console.WriteLine($"Помилка: '{dateInput}' не є дійсною датою.");
+                Console.WriteLine("Натисніть будь-яку клавішу для повернення до головного меню...");
+                Console.ReadKey();
+                return;
+            }
+        }
         
         Console.Write("Введіть суму: ");
-        var amount = decimal.TryParse(Console.ReadLine(), out var parsedAmount) ? parsedAmount : 0;
+        var amountInput = Console.ReadLine();
+        if (!decimal.TryParse(amountInput, System.Globalization.NumberStyles.Number, 
+                             System.Globalization.CultureInfo.InvariantCulture, out var amount) &&
+            !decimal.TryParse(amountInput, System.Globalization.NumberStyles.Number, 
+                             System.Globalization.CultureInfo.CurrentCulture, out amount))
+        {
+            Console.WriteLine($"Помилка: '{amountInput}' не є дійсною сумою. Використовуйте формат: 0.01 або 0,01");
+            Console.WriteLine("Натисніть будь-яку клавішу для повернення до головного меню...");
+            Console.ReadKey();
+            return;
+        }
         
         Console.Write("Введіть опис: ");
         var description = Console.ReadLine() ?? string.Empty;
@@ -117,11 +154,15 @@ public class ApplicationService : IApplicationService
             {
                 Console.WriteLine($" - {error.ErrorMessage}");
             }
+            Console.WriteLine("\nНатисніть будь-яку клавішу для повернення до головного меню...");
+            Console.ReadKey();
         }
         else
         {
             _transactionService.AddTransaction(transaction);
             Console.WriteLine("\nОперацію успішно додано!");
+            Console.WriteLine("Натисніть будь-яку клавішу для повернення до головного меню...");
+            Console.ReadKey();
         }
     }
 
