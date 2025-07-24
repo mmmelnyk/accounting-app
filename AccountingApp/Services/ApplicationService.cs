@@ -205,11 +205,35 @@ public class ApplicationService : IApplicationService
             return;
         }
 
-        Console.Write($"Кінцева дата ({_appSettings.DateFormat}): ");
-        if (!DateTime.TryParse(Console.ReadLine(), out var endDate))
+        // Check if start date is in the future
+        if (startDate.Date > DateTime.Now.Date)
         {
-            Console.WriteLine("Некоректна кінцева дата.");
+            Console.WriteLine("Початкова дата не може бути в майбутньому.");
             return;
+        }
+
+        Console.Write($"Кінцева дата ({_appSettings.DateFormat}) або залиште порожнім для поточної дати: ");
+        var endDateInput = Console.ReadLine();
+        
+        DateTime endDate;
+        if (string.IsNullOrWhiteSpace(endDateInput))
+        {
+            endDate = DateTime.Now;
+        }
+        else
+        {
+            if (!DateTime.TryParse(endDateInput, out endDate))
+            {
+                Console.WriteLine("Некоректна кінцева дата.");
+                return;
+            }
+            
+            // Check if end date is in the future
+            if (endDate.Date > DateTime.Now.Date)
+            {
+                Console.WriteLine("Кінцева дата не може бути в майбутньому.");
+                return;
+            }
         }
 
         if (endDate < startDate)
@@ -222,11 +246,11 @@ public class ApplicationService : IApplicationService
         
         if (transactionsInRange.Count == 0)
         {
-            Console.WriteLine("Немає проводок у вказаному періоді.");
+            Console.WriteLine($"Немає проводок у періоді з {startDate:yyyy-MM-dd} по {endDate:yyyy-MM-dd}");
             return;
         }
-
-        Console.WriteLine("\nId | Дата       | Рахунок дебету | Рахунок кредиту | Сума        | Коментар");
+        Console.WriteLine($"\nПроводки в períоді з {startDate:yyyy-MM-dd} по {endDate:yyyy-MM-dd}");
+        Console.WriteLine("Id | Дата       | Рахунок дебету | Рахунок кредиту | Сума        | Коментар");
         Console.WriteLine(new string('-', 80));
         
         foreach (var transaction in transactionsInRange)
