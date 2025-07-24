@@ -1,0 +1,40 @@
+# Ignore build artifacts
+**/bin/
+**/obj/
+**/out/
+
+# Ignore test results
+TestResults/
+test-results/
+coverage/
+
+# Ignore IDE files
+.vs/
+.vscode/
+*.user
+*.suo
+*.userprefs
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore git files
+.git/
+.gitignore
+.gitattributes
+
+# Ignore documentation
+README.md
+*.md
+
+# Ignore data files (will be mounted as volume)
+data/
+transactions.json
+
+# Ignore Docker files in build context
+Dockerfile*
+docker-compose*
+
+# Ignore logs
+*.log

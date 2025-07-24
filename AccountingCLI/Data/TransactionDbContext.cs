@@ -24,6 +24,13 @@ public class TransactionDbContext : ITransactionDbContext
 
     public void Save(List<Transaction> transactions)
     {
+        // Ensure directory exists
+        var directory = Path.GetDirectoryName(_filePath);
+        if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
+        {
+            Directory.CreateDirectory(directory);
+        }
+        
         var json = JsonSerializer.Serialize(transactions, new JsonSerializerOptions { WriteIndented = true });
         File.WriteAllText(_filePath, json);
     }
