@@ -249,7 +249,7 @@ public class ApplicationService : IApplicationService
             Console.WriteLine($"Немає проводок у періоді з {startDate:yyyy-MM-dd} по {endDate:yyyy-MM-dd}");
             return;
         }
-        Console.WriteLine($"\nПроводки в períоді з {startDate:yyyy-MM-dd} по {endDate:yyyy-MM-dd}");
+        Console.WriteLine($"\nПроводки в періоді з {startDate:yyyy-MM-dd} по {endDate:yyyy-MM-dd}");
         Console.WriteLine("Id | Дата       | Рахунок дебету | Рахунок кредиту | Сума        | Коментар");
         Console.WriteLine(new string('-', 80));
         
