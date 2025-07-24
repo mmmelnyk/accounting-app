@@ -1,24 +1,38 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 using AccountingCLI.Data;
 using AccountingCLI.Services;
 using AccountingCLI.Models;
+using AccountingCLI.Configuration;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
+using System.Reflection;
+
+var configuration = new ConfigurationBuilder()
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: false)
+    .Build();
+
+var appSettings = new AppSettings();
+configuration.GetSection("AppSettings").Bind(appSettings);
 
 // Set Ukrainian culture for currency formatting
-var ukrainianCulture = new CultureInfo("uk-UA");
-ukrainianCulture.NumberFormat.CurrencySymbol = "₴";
-Thread.CurrentThread.CurrentCulture = ukrainianCulture;
-Thread.CurrentThread.CurrentUICulture = ukrainianCulture;
+var cultureInfo = new CultureInfo(appSettings.CultureName);
+cultureInfo.NumberFormat.CurrencySymbol = appSettings.CurrencySymbol;
+Thread.CurrentThread.CurrentCulture = cultureInfo;
+Thread.CurrentThread.CurrentUICulture = cultureInfo;
 
 var serviceProvider = new ServiceCollection()
-    .AddSingleton<ITransactionDbContext, TransactionDbContext>()
+    .AddSingleton(appSettings)
+    .AddSingleton<ITransactionDbContext>(provider => new TransactionDbContext(appSettings.DataFilePath))
     .AddTransient<ITransactionService, TransactionService>()
     .BuildServiceProvider();
 
 var transactionService = serviceProvider.GetRequiredService<ITransactionService>();
 
-Console.WriteLine("Облік фінансових операцій");
+var assembly = Assembly.GetExecutingAssembly();
+var version = assembly.GetName().Version?.ToString() ?? "1.0.0";
+Console.WriteLine($"Облік фінансових операцій v{version}");
 
 while (true)
 {
