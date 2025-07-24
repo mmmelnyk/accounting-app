@@ -110,9 +110,9 @@ public class ApplicationService : IApplicationService
         var errors = new List<ValidationResult>();
         Validator.TryValidateObject(transaction, new ValidationContext(transaction), errors, true);
         
-        if (errors.Any())
+        if (errors.Count > 0)
         {
-            Console.WriteLine("\n❌ Помилки валідації:");
+            Console.WriteLine("\nПомилки валідації:");
             foreach (var error in errors)
             {
                 Console.WriteLine($" - {error.ErrorMessage}");
@@ -121,7 +121,7 @@ public class ApplicationService : IApplicationService
         else
         {
             _transactionService.AddTransaction(transaction);
-            Console.WriteLine("\n✅ Операцію успішно додано!");
+            Console.WriteLine("\nОперацію успішно додано!");
         }
     }
 
@@ -132,7 +132,7 @@ public class ApplicationService : IApplicationService
         
         var transactions = _transactionService.GetTransactions().ToList();
         
-        if (!transactions.Any())
+        if (transactions.Count == 0)
         {
             Console.WriteLine("Немає операцій для відображення.");
             return;
@@ -154,7 +154,7 @@ public class ApplicationService : IApplicationService
         
         var balanceItems = _transactionService.GetTrialBalanceItems().ToList();
         
-        if (!balanceItems.Any())
+        if (balanceItems.Count == 0)
         {
             Console.WriteLine("Немає даних для відображення.");
             return;
@@ -177,26 +177,26 @@ public class ApplicationService : IApplicationService
         Console.Write($"Початкова дата ({_appSettings.DateFormat}): ");
         if (!DateTime.TryParse(Console.ReadLine(), out var startDate))
         {
-            Console.WriteLine("❌ Некоректна початкова дата.");
+            Console.WriteLine("Некоректна початкова дата.");
             return;
         }
 
         Console.Write($"Кінцева дата ({_appSettings.DateFormat}): ");
         if (!DateTime.TryParse(Console.ReadLine(), out var endDate))
         {
-            Console.WriteLine("❌ Некоректна кінцева дата.");
+            Console.WriteLine("Некоректна кінцева дата.");
             return;
         }
 
         if (endDate < startDate)
         {
-            Console.WriteLine("❌ Кінцева дата не може бути раніше за початкову.");
+            Console.WriteLine("Кінцева дата не може бути раніше за початкову.");
             return;
         }
 
         var transactionsInRange = _transactionService.GetTransactions(startDate, endDate).ToList();
         
-        if (!transactionsInRange.Any())
+        if (transactionsInRange.Count == 0)
         {
             Console.WriteLine("Немає проводок у вказаному періоді.");
             return;

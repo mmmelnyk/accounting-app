@@ -17,7 +17,7 @@ public class TransactionService : ITransactionService
         var transactions = DbContext.Load();
         
         // Generate unique ID
-        transaction.Id = transactions.Any() ? transactions.Max(t => t.Id) + 1 : 1;
+        transaction.Id = transactions.Count > 0 ? transactions.Max(t => t.Id) + 1 : 1;
         
         transactions.Add(transaction);
         DbContext.Save(transactions);
@@ -57,7 +57,7 @@ public class TransactionService : ITransactionService
     public void GenerateSeedData()
     {
         var existingTransactions = DbContext.Load();
-        if (existingTransactions.Any())
+        if (existingTransactions.Count > 0)
         {
             Console.WriteLine("Seed data already exists. Skipping generation.");
             return;
